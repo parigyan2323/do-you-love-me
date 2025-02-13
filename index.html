@@ -54,6 +54,7 @@
         #yes {
             background-color: #28a745;
             color: white;
+            position: relative;
         }
         #yes:hover {
             background-color: #218838;
@@ -61,9 +62,7 @@
         #no {
             background-color: #dc3545;
             color: white;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
         }
         #no:hover {
             background-color: #c82333;
@@ -93,22 +92,24 @@
 
     <script>
         function moveNo(event) {
-            event.preventDefault(); // Prevent unwanted touch behavior on mobile
+            if (event) event.preventDefault(); // Prevent touch issues on mobile
             
             let button = document.getElementById("no");
+
+            // Limit movement within screen bounds
             let maxX = window.innerWidth - button.offsetWidth - 20;
             let maxY = window.innerHeight - button.offsetHeight - 20;
 
             let x = Math.random() * maxX;
             let y = Math.random() * maxY;
 
-            // Ensure the button stays within the visible area
-            x = Math.max(10, Math.min(x, maxX));
-            y = Math.max(10, Math.min(y, maxY));
+            // Ensure the button stays within visible area
+            x = Math.max(50, Math.min(x, maxX - 50));
+            y = Math.max(50, Math.min(y, maxY - 50));
 
+            button.style.position = "absolute";
             button.style.left = `${x}px`;
             button.style.top = `${y}px`;
-            button.style.position = "absolute";
         }
 
         function showLove() {
