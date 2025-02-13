@@ -25,6 +25,7 @@
             transition: transform 0.3s ease-in-out;
             width: 90%;
             max-width: 400px;
+            position: relative;
         }
         .container:hover {
             transform: scale(1.05);
@@ -40,7 +41,6 @@
             gap: 20px;
             margin-top: 20px;
             position: relative;
-            flex-wrap: wrap;
         }
         button {
             font-size: 16px;
@@ -62,7 +62,9 @@
         #no {
             background-color: #dc3545;
             color: white;
-            position: relative;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         #no:hover {
             background-color: #c82333;
@@ -92,21 +94,23 @@
 
     <script>
         function moveNo(event) {
-            if (event) event.preventDefault(); // Prevent touch issues on mobile
+            if (event) event.preventDefault(); // Prevent unwanted touch behavior on mobile
             
             let button = document.getElementById("no");
+            let container = document.querySelector(".container");
 
-            // Limit movement within screen bounds
-            let maxX = window.innerWidth - button.offsetWidth - 20;
-            let maxY = window.innerHeight - button.offsetHeight - 20;
+            // Get container boundaries
+            let containerRect = container.getBoundingClientRect();
+            let buttonRect = button.getBoundingClientRect();
+
+            // Calculate new position inside the container
+            let maxX = containerRect.width - buttonRect.width - 20;
+            let maxY = containerRect.height - buttonRect.height - 20;
 
             let x = Math.random() * maxX;
             let y = Math.random() * maxY;
 
-            // Ensure the button stays within visible area
-            x = Math.max(50, Math.min(x, maxX - 50));
-            y = Math.max(50, Math.min(y, maxY - 50));
-
+            // Apply position relative to container
             button.style.position = "absolute";
             button.style.left = `${x}px`;
             button.style.top = `${y}px`;
