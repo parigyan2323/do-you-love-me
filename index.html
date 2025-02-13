@@ -15,32 +15,36 @@
             justify-content: center;
             flex-direction: column;
             margin: 0;
+            overflow: hidden;
         }
         .container {
             background: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease-in-out;
+            width: 90%;
+            max-width: 400px;
         }
         .container:hover {
             transform: scale(1.05);
         }
         h1 {
             color: #d6336c;
-            font-size: 24px;
+            font-size: 20px;
             margin-bottom: 20px;
         }
         .buttons {
             display: flex;
             justify-content: center;
             gap: 20px;
-            position: relative;
             margin-top: 20px;
+            position: relative;
+            flex-wrap: wrap;
         }
         button {
-            font-size: 18px;
-            padding: 12px 25px;
+            font-size: 16px;
+            padding: 12px 20px;
             border: none;
             cursor: pointer;
             border-radius: 10px;
@@ -57,13 +61,13 @@
         #no {
             background-color: #dc3545;
             color: white;
-            position: relative; /* No overlap initially */
+            position: relative; /* Starts in place */
         }
         #no:hover {
             background-color: #c82333;
         }
         #message {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
             color: #2d3748;
             margin-top: 20px;
@@ -80,7 +84,7 @@
         <h1>February 14th isn’t just Valentine’s Day—it’s the day the world was blessed with you. From the way you light up every moment to the way you make my heart race, I can’t imagine celebrating this day without you. So, will you let me be the lucky one to celebrate your birthday and Valentine’s Day with you, as your Valentine? ❤️</h1>
         <div class="buttons">
             <button id="yes" onclick="showLove()">Yes</button>
-            <button id="no" onmouseover="moveNo()">No</button>
+            <button id="no" onmouseover="moveNo()" ontouchstart="moveNo()">No</button>
         </div>
         <p id="message"></p>
     </div>
@@ -88,9 +92,16 @@
     <script>
         function moveNo() {
             let button = document.getElementById("no");
-            let x = Math.random() * (window.innerWidth - 200); 
+
+            // Set a random position within screen bounds
+            let x = Math.random() * (window.innerWidth - 100); 
             let y = Math.random() * (window.innerHeight - 150);
-            button.style.position = "absolute"; // Now move it
+
+            // Ensure the button stays visible and doesn't go off-screen
+            x = Math.max(10, Math.min(x, window.innerWidth - 110));
+            y = Math.max(10, Math.min(y, window.innerHeight - 60));
+
+            button.style.position = "absolute"; // Allow movement
             button.style.left = `${x}px`;
             button.style.top = `${y}px`;
         }
