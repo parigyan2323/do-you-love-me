@@ -61,7 +61,9 @@
         #no {
             background-color: #dc3545;
             color: white;
-            position: relative; /* Starts in place */
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         #no:hover {
             background-color: #c82333;
@@ -84,26 +86,29 @@
         <h1>February 14th isn’t just Valentine’s Day—it’s the day the world was blessed with you. From the way you light up every moment to the way you make my heart race, I can’t imagine celebrating this day without you. So, will you let me be the lucky one to celebrate your birthday and Valentine’s Day with you, as your Valentine? ❤️</h1>
         <div class="buttons">
             <button id="yes" onclick="showLove()">Yes</button>
-            <button id="no" onmouseover="moveNo()" ontouchstart="moveNo()">No</button>
+            <button id="no" onmouseover="moveNo()" ontouchstart="moveNo(event)">No</button>
         </div>
         <p id="message"></p>
     </div>
 
     <script>
-        function moveNo() {
+        function moveNo(event) {
+            event.preventDefault(); // Prevent unwanted touch behavior on mobile
+            
             let button = document.getElementById("no");
+            let maxX = window.innerWidth - button.offsetWidth - 20;
+            let maxY = window.innerHeight - button.offsetHeight - 20;
 
-            // Set a random position within screen bounds
-            let x = Math.random() * (window.innerWidth - 100); 
-            let y = Math.random() * (window.innerHeight - 150);
+            let x = Math.random() * maxX;
+            let y = Math.random() * maxY;
 
-            // Ensure the button stays visible and doesn't go off-screen
-            x = Math.max(10, Math.min(x, window.innerWidth - 110));
-            y = Math.max(10, Math.min(y, window.innerHeight - 60));
+            // Ensure the button stays within the visible area
+            x = Math.max(10, Math.min(x, maxX));
+            y = Math.max(10, Math.min(y, maxY));
 
-            button.style.position = "absolute"; // Allow movement
             button.style.left = `${x}px`;
             button.style.top = `${y}px`;
+            button.style.position = "absolute";
         }
 
         function showLove() {
